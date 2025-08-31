@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import (
 
     AllowAny,
+    IsAuthenticated,
     BasePermission,
     SAFE_METHODS
 
@@ -67,11 +68,19 @@ class RegisterView(generics.CreateAPIView):
 class AccountViewSet(ModelViewSet):
 
     serializer_class = AccountSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
 
-        return User.objects.filter(pk=self.request.user.pk)
+        user = self.request.user
+
+        if user.is_staff and user.is_superuser:
+
+            return User.objects.all()
+        
+        else:
+        
+            return User.objects.filter(pk=user.pk)
 
 class LogoutAPIView(APIView):
 

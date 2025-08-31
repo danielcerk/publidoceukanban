@@ -80,8 +80,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 class AccountSerializer(serializers.ModelSerializer):
 
     profile = ProfileSerializer()
-
-
     password = serializers.CharField(write_only=True, required=False)
 
     class Meta:
@@ -90,7 +88,8 @@ class AccountSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'name', 
             'first_name', 'last_name',
-            'email','password', 'profile'
+            'email','password', 'profile',
+            'is_active', 'is_staff', 'is_superuser'
         )
 
         read_only_fields = (
@@ -102,6 +101,9 @@ class AccountSerializer(serializers.ModelSerializer):
             'name': {'required': False},
             'first_name': {'required': False},
             'last_name': {'required': False},
+            'is_active': {'required': False},
+            'is_staff': {'required': False},
+            'is_superuser': {'required': False},
             'email': {'required': False},
             'password': {'required': False},
         }
