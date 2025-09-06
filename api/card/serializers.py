@@ -24,13 +24,15 @@ class FeedbackSerializer(serializers.ModelSerializer):
 class CardSerializer(serializers.ModelSerializer):
 
     image_upload = serializers.ImageField(write_only=True, required=False)
-    feedback = FeedbackSerializer(required=True)
+    feedback = FeedbackSerializer(required=False)
 
     class Meta:
         model = Card
         fields = '__all__'
         extra_kwargs = {
             'board': {'required': False},
+            'feedback': {'required': False},
+            'image': {'required': False},
             'is_activee': {'required': False},
             'created_at': {'required': False},
             'updated_at': {'required': False},
