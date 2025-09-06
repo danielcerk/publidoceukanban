@@ -93,7 +93,7 @@ class AccountSerializer(serializers.ModelSerializer):
         )
 
         read_only_fields = (
-            'id', 'is_active', 'is_staff', 'is_superuser',
+            'id', 'is_staff', 'is_superuser',
             'created_at', 'updated_at'
         )
 
@@ -117,7 +117,7 @@ class AccountSerializer(serializers.ModelSerializer):
 
             instance.password = make_password(password)
 
-        for attr in ('name', 'first_name', 'last_name', 'email'):
+        for attr in ('name', 'first_name', 'last_name', 'email', 'is_active'):
 
             if attr in validated_data:
 
