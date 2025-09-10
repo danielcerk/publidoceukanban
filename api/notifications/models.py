@@ -15,7 +15,7 @@ class Notification(models.Model):
         verbose_name='Usuário',
         null=True, blank=True,
         on_delete=models.CASCADE,
-        related_name='user'
+        related_name='notifications'
 
     )
 
