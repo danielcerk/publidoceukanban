@@ -45,9 +45,8 @@ class RegisterView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
 
-        serializer = self.get_serializer(data=request.data)
+        serializer = self.get_serializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-
         user = serializer.save()
 
         refresh = RefreshToken.for_user(user)
@@ -59,7 +58,7 @@ class RegisterView(generics.CreateAPIView):
                 'first_name': user.first_name,
                 'last_name': user.last_name,
                 'email': user.email,
-                'author': user.author,
+                'author': user.author.id if user.author else None,
                 'refresh': str(refresh),
                 'access': access,
             },

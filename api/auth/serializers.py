@@ -42,25 +42,25 @@ class RegisterSerializer(serializers.ModelSerializer):
         model = User
         fields = ('name', 
             'first_name', 'last_name', 
-            'email', 'password', 'author')
+            'email', 'password')
         
         extra_kwargs = {
             'first_name': {'required': False},
             'last_name': {'required': False},
-            'author': {'required': False}
         }
 
 
     def create(self, validated_data):
 
-        author_id = validated_data.get('author')
+        request = self.context.get('request')
+        author = request.user if request else None
 
         user = User.objects.create(
             name=validated_data['name'],
             first_name=validated_data.get('first_name', ''),
             last_name=validated_data.get('last_name', ''),
             email=validated_data['email'],
-            author=User.objects.get(id=author_id) if author_id else None
+            author=author
         )
         user.set_password(validated_data['password'])
         user.save()

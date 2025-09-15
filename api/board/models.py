@@ -16,6 +16,14 @@ class Board(models.Model):
 
     )
 
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="boards_as_author",
+        null=True,
+        blank=True
+    )
+
     customer = models.ForeignKey(
 
         User, on_delete=models.CASCADE,
