@@ -62,10 +62,10 @@ def notify_feedback_admin(sender, instance, created, **kwargs):
     if created:
         pass
     else:
-        description = f'O feedback de {instance.board.customer} foi atualizado'
+        description = f'O feedback de {instance.card.board.customer} foi atualizado'
         create_notification_and_email(
-            user=instance.board.user,
-            author=instance.board.customer,
+            user=instance.card.board.user,
+            author=instance.card.board.customer,
             description=description,
             content_type=ContentType.objects.get_for_model(instance),
             object_id=instance.id,
