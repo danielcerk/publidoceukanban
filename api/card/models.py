@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils import timezone
+from datetime import timedelta
 from api.board.models import Board
 from django.core.exceptions import ValidationError
 
@@ -65,6 +67,18 @@ class Card(models.Model):
         blank=True
     )
 
+    approved_date = models.DateField(
+        verbose_name='Data de aprovação',
+        null=True,
+        blank=True
+    )
+    
+    deleted_at = models.DateField(
+        verbose_name='Data de exclusão',
+        null=True,
+        blank=True
+    )
+
     created_at = models.DateTimeField(
         verbose_name='Criado em',
         auto_now_add=True
@@ -89,9 +103,27 @@ class Card(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.full_clean()
+        if self.pk:
 
+            old_status = Card.objects.filter(pk=self.pk).values_list("status", flat=True).first()
+
+        else:
+
+            old_status = None
+
+        if self.status == "done":
+
+            self.approved_date = timezone.now().date()
+            self.deleted_at = self.approved_date + timedelta(days=30)
+
+        elif old_status == "done" and self.status != "done":
+            
+            self.approved_date = None
+            self.deleted_at = None
+
+        self.full_clean()
         super().save(*args, **kwargs)
+
 
     def __str__(self):
 

@@ -36,11 +36,14 @@ class CardSerializer(serializers.ModelSerializer):
             'board': {'required': False},
             'feedback': {'required': False},
             'image': {'required': False},
-            'is_activee': {'required': False},
+            'is_active': {'required': False},
+            'approved_date': {'required': False},
+            'deleted_at': {'required': False},
             'created_at': {'required': False},
             'updated_at': {'required': False},
         }
-        read_only_fields = ['board', 'is_active', 'created_at', 'updated_at']
+        read_only_fields = ['board', 'is_active', 'approved_date',
+            'deleted_at', 'created_at', 'updated_at']
 
     def get_feedback(self, obj):
 
