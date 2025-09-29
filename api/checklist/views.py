@@ -11,7 +11,7 @@ from rest_framework.permissions import (
 
 )
 
-from api.board.models import Board
+from api.card.models import Card
 
 class ChecklistViewSet(ModelViewSet):
 
@@ -20,22 +20,22 @@ class ChecklistViewSet(ModelViewSet):
 
     def get_queryset(self):
 
-        board_id = self.kwargs.get('board_pk')
+        card_id = self.kwargs.get('card_pk')
         user = self.request.user
 
-        if board_id is None:
+        if card_id is None:
 
             return Checklist.objects.none()
 
         if user.is_staff or user.is_superuser:
 
-            return Checklist.objects.filter(board_id=board_id).order_by('-id')
+            return Checklist.objects.filter(card_id=card_id).order_by('-id')
 
         return Checklist.objects.none()
 
     def perform_create(self, serializer):
         
-        board_id = self.kwargs.get('board_pk')
-        board = get_object_or_404(Board, pk=board_id)
+        card_id = self.kwargs.get('card_pk')
+        card = get_object_or_404(card, pk=card_id)
 
-        serializer.save(board=board)
+        serializer.save(card=card)

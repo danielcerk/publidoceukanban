@@ -6,7 +6,7 @@ class ChecklistAdmin(admin.ModelAdmin):
     
     list_display = (
         'id',
-        'board',
+        'card',
         'title',
         'is_check',
         'created_at',
@@ -17,12 +17,12 @@ class ChecklistAdmin(admin.ModelAdmin):
         'is_check',
         'created_at',
         'updated_at',
-        'board',
+        'card',
     )
 
     search_fields = (
         'title',
-        'board__customer__name',
+        'card__customer__name',
     )
 
     ordering = ('-created_at',)

@@ -1,13 +1,13 @@
 from django.db import models
 
-from api.board.models import Board
+from api.card.models import Card
 
 class Checklist(models.Model):
 
-    board = models.ForeignKey(
-        Board, on_delete=models.CASCADE,
-        verbose_name='Cliente',
-        null=False, blank=False
+    card = models.ForeignKey(
+        Card, on_delete=models.CASCADE,
+        verbose_name='Card',
+        null=True, blank=True
     )
 
     title = models.CharField(

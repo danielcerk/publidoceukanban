@@ -12,7 +12,7 @@ class ChecklistSerializer(serializers.ModelSerializer):
         extra_kwargs = {
 
             'id': {'required': False},
-            'board': {'required': False},
+            'card': {'required': False},
             'created_at': {'required': False},
             'updated_at': {'required': False}
 
@@ -20,6 +20,6 @@ class ChecklistSerializer(serializers.ModelSerializer):
 
         read_only_fields = [
 
-            'id', 'board', 'created_at', 'updated_at'
+            'id', 'card', 'created_at', 'updated_at'
 
         ]
