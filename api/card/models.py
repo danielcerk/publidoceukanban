@@ -128,6 +128,7 @@ class FileCard(models.Model):
         Card, on_delete=models.CASCADE,
         verbose_name='Card',
         null=False, blank=False,
+        related_name="files",
 
     )
 
@@ -135,6 +136,7 @@ class FileCard(models.Model):
 
         verbose_name='Está aprovado',
         null=True, blank=True,
+        default=False
 
     )
 

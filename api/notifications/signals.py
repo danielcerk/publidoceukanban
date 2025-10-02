@@ -42,7 +42,7 @@ def notify_card_user(sender, instance, created, **kwargs):
 
         create_notification_and_email(
             user=instance.board.customer,
-            author=instance.board.user,
+            author=instance.board.author,
             description=description,
             content_type=ContentType.objects.get_for_model(instance),
             object_id=instance.id,
@@ -57,7 +57,7 @@ def notify_card_user(sender, instance, created, **kwargs):
 
             create_notification_and_email(
                 user=instance.board.customer,
-                author=instance.board.user,
+                author=instance.board.author,
                 description=description,
                 content_type=ContentType.objects.get_for_model(instance),
                 object_id=instance.id,
@@ -77,7 +77,7 @@ def notify_feedback_admin(sender, instance, created, **kwargs):
         description = f'O feedback de {instance.card.board.customer} foi atualizado'
 
         create_notification_and_email(
-            user=instance.card.board.user,
+            user=instance.card.board.author,
             author=instance.card.board.customer,
             description=description,
             content_type=ContentType.objects.get_for_model(instance),
