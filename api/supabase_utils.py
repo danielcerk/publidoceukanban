@@ -1,24 +1,43 @@
 import uuid
 from django.conf import settings
 from supabase import create_client
-
+from storage3.exceptions import StorageApiError
+from api.compress_utils import compress_image
 supabase = create_client(settings.SUPABASE_URL, settings.SUPABASE_SERVICE_KEY)
 storage = supabase.storage
 
 def upload_to_supabase(file, original_name=None, content_type=None):
-    
+
+    if file.size > 50 * 1024 * 1024:
+        raise ValueError("O arquivo é muito grande. O limite é 50MB.")
+
     ext = file.name.split('.')[-1]
     
     short_uuid = str(uuid.uuid4())[:8]
     unique_filename = f'files_cards/{short_uuid}.{ext}'
 
-    file_bytes = file.read()
+    
+    # Comprimir se for imagem
+    if ext in ['png', 'jpg', 'jpeg']:
+        format = 'PNG' if ext == 'png' else 'JPEG'
+        file_bytes = compress_image(file, format=format).read()
+    else:
+        file_bytes = file.read()
 
-    # storage.from_(settings.SUPABASE_BUCKET).upload(unique_filename, file_bytes)
-    storage.from_(settings.SUPABASE_BUCKET).upload(
-        unique_filename, file_bytes,
-        {"content-type": content_type or "application/octet-stream"}
-    )
+
+    # file_bytes = file.read()
+
+    try:
+        # storage.from_(settings.SUPABASE_BUCKET).upload(unique_filename, file_bytes)
+        storage.from_(settings.SUPABASE_BUCKET).upload(
+            unique_filename, file_bytes,
+            {"content-type": content_type or "application/octet-stream"}
+        )
+    except StorageApiError as e:
+        if e.status_code == 413:
+            raise ValueError("O arquivo é muito grande. O limite é 50MB.")
+        raise
+
     public_url = storage.from_(settings.SUPABASE_BUCKET).get_public_url(unique_filename)
 
     return public_url

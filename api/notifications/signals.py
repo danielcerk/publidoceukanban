@@ -38,7 +38,7 @@ def notify_card_user(sender, instance, created, **kwargs):
 
     if created:
 
-        description = f'Novo card criado para o cliente {instance.board.customer}'
+        description = f'Um novo card foi criado para você: {instance.board.customer}'
 
         create_notification_and_email(
             user=instance.board.customer,
@@ -46,14 +46,14 @@ def notify_card_user(sender, instance, created, **kwargs):
             description=description,
             content_type=ContentType.objects.get_for_model(instance),
             object_id=instance.id,
-            title='Novo Card Criado'
+            title='Novo conteúdo adicionado'
         )
 
     else:
 
         if 'status' in instance.get_deferred_fields():
 
-            description = f'O status do card {instance.id} foi alterado para {instance.status}'
+            description = f'O novo status adicionado para card {instance.id} é: {instance.status}'
 
             create_notification_and_email(
                 user=instance.board.customer,

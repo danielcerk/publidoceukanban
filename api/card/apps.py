@@ -4,7 +4,7 @@ from django.apps import AppConfig
 class CardConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'api.card'
-
-    '''def ready(self):
-        
-        import api.card.signals'''
+    
+    def ready(self):
+        import api.card.signals
+    

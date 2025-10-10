@@ -48,6 +48,7 @@ class CardViewset(ModelViewSet):
         board = get_object_or_404(Board, pk=board_id)
 
         serializer.save(board=board)
+        
 
 class DeleteCard1MonthApprovedView(APIView):
 

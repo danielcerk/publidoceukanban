@@ -13,6 +13,10 @@ User = get_user_model()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
+    def validate(self, attrs):
+        attrs['email'] = attrs['email'].lower()
+        return super().validate(attrs)
+
     @classmethod
 
     def get_token(cls, user):
@@ -20,7 +24,7 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         token['name'] = user.name
-        token['email'] = user.email
+        token['email'] = user.email.lower()
 
         return token
 
@@ -54,6 +58,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
         request = self.context.get('request')
         author = request.user if request else None
+
+        validated_data['email'] = validated_data['email'].lower()
 
         user = User.objects.create(
             name=validated_data['name'],
@@ -125,8 +131,11 @@ class AccountSerializer(serializers.ModelSerializer):
         for attr in ('name', 'first_name', 'last_name', 'email', 'is_active'):
 
             if attr in validated_data:
+                value = validated_data[attr]
+                if attr == 'email':
+                    value = value.lower()
 
-                setattr(instance, attr, validated_data[attr])
+                setattr(instance, attr, value)
 
         instance.save()
 
