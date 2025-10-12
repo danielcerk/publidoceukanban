@@ -6,6 +6,8 @@ from datetime import timedelta
 
 from django.utils import timezone
 
+from corsheaders.defaults import default_headers
+
 import os
 
 load_dotenv()
@@ -131,6 +133,22 @@ CSRF_TRUSTED_ORIGINS =  [
     "https://www.publidoceu.com.br",
     "https://publidoceu.com.br"
 
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'content-disposition',
+    'content-type',
+    'x-csrftoken',
+    'authorization',
+]
+
+CORS_ALLOW_METHODS = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS',
 ]
 
 LANGUAGE_CODE = 'pt-br'
