@@ -117,7 +117,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://publidoceu.vercel.app",
-    "https://www.publidoceu.com.br"
+    "https://www.publidoceu.com.br",
+    "https://publidoceu.com.br"
 
 ]
 
@@ -127,7 +128,8 @@ CSRF_TRUSTED_ORIGINS =  [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://publidoceu.vercel.app",
-    "https://www.publidoceu.com.br"
+    "https://www.publidoceu.com.br",
+    "https://publidoceu.com.br"
 
 ]
 
@@ -205,3 +207,6 @@ EMAIL_HOST_USER = 'suporteconstsoft@gmail.com'
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 152428800
+FILE_UPLOAD_MAX_MEMORY_SIZE = 152428800
