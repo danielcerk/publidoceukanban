@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import FileCard
-from api.supabase_utils import upload_to_supabase, delete_from_supabase
 from api.cloudinary_utils import upload_to_cloudinary, delete_from_cloudinary
 
 class FileCardSerializer(serializers.ModelSerializer):
