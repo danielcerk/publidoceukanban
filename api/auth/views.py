@@ -21,6 +21,10 @@ from .serializers import (
 from django.contrib.auth import get_user_model
 from rest_framework.parsers import MultiPartParser, FormParser
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_control
+from django.views.decorators.vary import vary_on_cookie
+
 User = get_user_model()
 
 class IsOwnerOrReadOnly(BasePermission):
@@ -64,6 +68,7 @@ class RegisterView(generics.CreateAPIView):
             },
             status=status.HTTP_201_CREATED,
         )
+    
 
 class AccountViewSet(ModelViewSet):
 
@@ -81,6 +86,17 @@ class AccountViewSet(ModelViewSet):
         else:
         
             return User.objects.filter(pk=user.pk)
+        
+     # Aplicar cache nas actions específicas
+    @method_decorator(cache_control(max_age=900, private=True))
+    @method_decorator(vary_on_cookie)  # Importante para cache por usuário
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+    @method_decorator(cache_control(max_age=900, private=True))
+    @method_decorator(vary_on_cookie)
+    def retrieve(self, request, *args, **kwargs):
+        return super().retrieve(request, *args, **kwargs)
 
 class LogoutAPIView(APIView):
 
