@@ -61,11 +61,15 @@ class DeleteCard1MonthApprovedView(APIView):
         count = 0
         
         for card in cards_to_delete:
+
             serializer = CardSerializer()
             serializer.delete(card)
+
             count += 1
 
         return Response(
+
             {"message": f"{count} card(s) excluído(s)."},
             status=status.HTTP_200_OK
+            
         )

@@ -106,5 +106,11 @@ class CardSerializer(serializers.ModelSerializer):
             feedback.save()
 
         return instance
+    
+    @staticmethod
+    def delete(instance):
+        
+        instance.delete()
+        return instance
 
 
